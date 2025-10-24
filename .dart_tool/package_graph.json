@@ -31,8 +31,22 @@
         "uuid"
       ],
       "devDependencies": [
+        "flutter_launcher_icons",
         "flutter_lints",
         "flutter_test"
+      ]
+    },
+    {
+      "name": "flutter_launcher_icons",
+      "version": "0.10.0",
+      "dependencies": [
+        "args",
+        "checked_yaml",
+        "cli_util",
+        "image",
+        "json_annotation",
+        "path",
+        "yaml"
       ]
     },
     {
@@ -317,6 +331,58 @@
       ]
     },
     {
+      "name": "yaml",
+      "version": "3.1.3",
+      "dependencies": [
+        "collection",
+        "source_span",
+        "string_scanner"
+      ]
+    },
+    {
+      "name": "path",
+      "version": "1.9.1",
+      "dependencies": []
+    },
+    {
+      "name": "json_annotation",
+      "version": "4.9.0",
+      "dependencies": [
+        "meta"
+      ]
+    },
+    {
+      "name": "image",
+      "version": "3.3.0",
+      "dependencies": [
+        "archive",
+        "meta",
+        "xml"
+      ]
+    },
+    {
+      "name": "cli_util",
+      "version": "0.3.5",
+      "dependencies": [
+        "meta",
+        "path"
+      ]
+    },
+    {
+      "name": "checked_yaml",
+      "version": "2.0.4",
+      "dependencies": [
+        "json_annotation",
+        "source_span",
+        "yaml"
+      ]
+    },
+    {
+      "name": "args",
+      "version": "2.7.0",
+      "dependencies": []
+    },
+    {
       "name": "lints",
       "version": "3.0.0",
       "dependencies": []
@@ -447,11 +513,6 @@
         "clock",
         "collection"
       ]
-    },
-    {
-      "name": "path",
-      "version": "1.9.1",
-      "dependencies": []
     },
     {
       "name": "matcher",
@@ -1056,6 +1117,23 @@
       "dependencies": []
     },
     {
+      "name": "xml",
+      "version": "6.5.0",
+      "dependencies": [
+        "collection",
+        "meta",
+        "petitparser"
+      ]
+    },
+    {
+      "name": "archive",
+      "version": "3.6.1",
+      "dependencies": [
+        "crypto",
+        "path"
+      ]
+    },
+    {
       "name": "plugin_platform_interface",
       "version": "2.1.8",
       "dependencies": [
@@ -1166,26 +1244,12 @@
       ]
     },
     {
-      "name": "xml",
-      "version": "6.5.0",
-      "dependencies": [
-        "collection",
-        "meta",
-        "petitparser"
-      ]
-    },
-    {
       "name": "path_parsing",
       "version": "1.1.0",
       "dependencies": [
         "meta",
         "vector_math"
       ]
-    },
-    {
-      "name": "args",
-      "version": "2.7.0",
-      "dependencies": []
     },
     {
       "name": "wkt_parser",
@@ -1216,6 +1280,14 @@
       ]
     },
     {
+      "name": "petitparser",
+      "version": "6.1.0",
+      "dependencies": [
+        "collection",
+        "meta"
+      ]
+    },
+    {
       "name": "ffi",
       "version": "2.1.4",
       "dependencies": []
@@ -1231,14 +1303,6 @@
       "dependencies": [
         "meta",
         "path"
-      ]
-    },
-    {
-      "name": "petitparser",
-      "version": "6.1.0",
-      "dependencies": [
-        "collection",
-        "meta"
       ]
     },
     {
