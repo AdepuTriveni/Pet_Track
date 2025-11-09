@@ -129,10 +129,10 @@ Matches are shown in the Matches screen.
 ## Screenshots
 
 ### Login Screen
-![Login](./login.jpg)
+![alt text](login.png)
 
 ### Add Lost Pet
-![Add Lost Pet](./lost_pet.jpg)
+![Add Lost Pet](lost_pet.jpg)
 
 ### Matches Screen
-![Matches](./matches.jpg)
+![Mathches](image-1.png)
