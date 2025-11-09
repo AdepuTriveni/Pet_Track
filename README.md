@@ -1,20 +1,18 @@
 # 🐾 PetTrack
 
-PetTrack is a cross-platform application to help people report **lost** and **found** pets.  
-When users upload pet details and images, the system stores them and compares lost and found records to help identify potential matches.  
-This helps streamline the process of reuniting pets with their owners.
+PetTrack is a cross-platform application that helps users report **lost** and **found** pets.  
+When users upload pet details and images, the system compares Lost vs Found entries and identifies potential matches using visual similarity scoring.
 
 ---
 
 ## Features
 
-- Login & signup using Firebase Authentication
-- Add **Lost Pet** records
-- Add **Found Pet** records
-- Image upload handled through **Cloudinary**
-- Location capture support
-- All pet data stored in **MongoDB Atlas**
-- **Match scoring** is performed using CLIP ViT-B/32 embeddings (FastAPI backend)
+- Firebase Authentication for Login / Signup
+- Add **Lost** or **Found** pet details
+- Upload pet images through **Cloudinary**
+- Location support for reporting
+- Data stored securely in **MongoDB Atlas**
+- Pet Match Scoring using **CLIP ViT-B/32** model (FastAPI backend)
 
 ---
 
@@ -39,11 +37,11 @@ Copy code
 |---------|------------|
 | Frontend | Flutter |
 | Authentication | Firebase Auth |
-| Backend API | FastAPI (Python) |
+| Backend API | FastAPI |
 | Database | MongoDB Atlas |
 | Image Storage | Cloudinary |
 | Similarity Model | CLIP ViT-B/32 (SentenceTransformers) |
-| Geolocation | geopy |
+| Geolocation Support | geopy |
 
 ---
 
@@ -52,12 +50,12 @@ Copy code
 PetTrack/
 ├── frontend/ # Flutter application
 ├── backend/ # FastAPI backend
-│ ├── main.py # API entry
-│ ├── matching_engine.py # CLIP similarity logic
-│ ├── database.py # MongoDB connection
-│ ├── models/ # Pydantic models
-│ ├── utils.py # Helper functions
-│ └── config.py # Configuration
+│ ├── main.py
+│ ├── matching_engine.py
+│ ├── database.py
+│ ├── models/
+│ ├── utils.py
+│ └── config.py
 └── README.md
 
 yaml
@@ -67,41 +65,38 @@ Copy code
 
 ## Configuration
 
-Create `.env` in backend:
+Create `.env` inside `backend/`:
 
 PORT=5000
 
-MongoDB Connection
-MONGO_URI="your_mongodb_atlas_connection_string"
+MongoDB
+MONGO_URI="<your_mongodb_atlas_connection_string>"
 
-Cloudinary Credentials
-CLOUDINARY_CLOUD_NAME="your_cloudinary_cloud_name"
-CLOUDINARY_API_KEY="your_cloudinary_api_key"
-CLOUDINARY_API_SECRET="your_cloudinary_api_secret"
+Cloudinary
+CLOUDINARY_CLOUD_NAME="<your_cloud_name>"
+CLOUDINARY_API_KEY="<your_api_key>"
+CLOUDINARY_API_SECRET="<your_api_secret>"
 
 Matching Engine
 MATCHING_API_URL=http://localhost:8000/match_score
 MATCH_THRESHOLD=0.7
 
-Email Configuration (if used)
-EMAIL_USER="your_email_here"
-EMAIL_PASS="your_app_password_here"
+Email (Optional)
+EMAIL_USER="<email>"
+EMAIL_PASS="<app_password>"
 
-makefile
+yaml
 Copy code
 
-`backend/config.py`:
+---
 
-```python
-MONGO_URI = "your_mongodb_atlas_connection_string"
-DB_NAME = "pettrack"
-Backend Setup
-bash
-Copy code
+## Backend Setup
+
+```bash
 cd backend
 pip install -r requirements.txt
 uvicorn main:app --reload
-API docs: http://localhost:8000/docs
+API Docs: http://localhost:8000/docs
 
 Frontend Setup (Flutter)
 bash
@@ -109,38 +104,37 @@ Copy code
 cd frontend
 flutter pub get
 flutter run
-How Matching Works (Simple Explanation)
-When a Found pet is added, the backend retrieves all Lost pets.
+How Matching Works
+When a Found pet is uploaded, backend fetches all Lost pets.
 
-CLIP ViT-B/32 converts both images into embedding vectors.
+Both pet images are converted into vector embeddings using CLIP ViT-B/32.
 
-Cosine similarity is calculated.
+Cosine similarity is computed.
 
-If similarity ≥ threshold (0.7), it is considered a match.
+If similarity ≥ threshold, the pair is marked as a match.
 
-Match appears in the Matches section.
+Matches appear in the Matches Screen.
 
 Future Enhancements
-Show uploader/owner details in pet card.
+Show uploader/owner details on each pet card
 
-Auto-archive lost pet records after 1–2 months to avoid database clutter.
+Auto-clean old lost pet entries (e.g., after 1–2 months)
 
-Implement email notifications when a match is detected.
+Email notifications when a match occurs
 
-Add chat interface for communication between finder and pet owner.
+Chat interface between owner and finder
 
-Provide My Pets screen for users to edit/manage their uploaded records.
+“My Pets” section for managing uploaded pets
 
-## Screenshots
+Screenshots (Click to View)
+Login Screen
+🔗 View Screenshot
 
-### Login Screen
-🔗 [View Screenshot](./login.png)
+Add Lost Pet Screen
+🔗 View Screenshot
 
-### Add Lost Pet Screen
-🔗 [View Screenshot](./los_pet.jpg)
+Add Found Pet Screen
+🔗 View Screenshot
 
-### Add Found Pet Screen
-🔗 [View Screenshot](./found_pet.jpg)
-
-### Matches Screen
-🔗 [View Screenshot](./matches.jpg)
+Matches Screen
+🔗 View Screenshot
