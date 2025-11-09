@@ -27,8 +27,7 @@ Send Data to FastAPI Backend → MongoDB Atlas
 ↓
 Match Engine compares Lost vs Found → Generates match score
 
-yaml
-Copy code
+![alt text](image-1.png)
 
 ---
 
@@ -69,37 +68,42 @@ Copy code
 Backend `.env` file:
 
 PORT=5000
-MONGO_URI = "mongodb+srv://Triveni:adepu123@cluster0.2glwj.mongodb.net/pettrack?retryWrites=true&w=majority"
-CLOUDINARY_CLOUD_NAME=dslut5epx
-CLOUDINARY_API_KEY=521144718367952
-CLOUDINARY_API_SECRET=ebI-SCePYWWA9Q9PfxYhGllH7U8
-SKIP_AUTH=true
+
+# MongoDB Connection
+MONGO_URI="your_mongodb_atlas_connection_string"
+
+# Cloudinary Credentials
+CLOUDINARY_CLOUD_NAME="your_cloudinary_cloud_name"
+CLOUDINARY_API_KEY="your_cloudinary_api_key"
+CLOUDINARY_API_SECRET="your_cloudinary_api_secret"
+
+# Matching Engine
 MATCHING_API_URL=http://localhost:8000/match_score
 MATCH_THRESHOLD=0.7
-EMAIL_USER=pettrack778@gmail.com
-EMAIL_PASS=fxnx urbg ufra xcdl
 
-makefile
-Copy code
+# Email Configuration (if used)
+EMAIL_USER="your_email_here"
+EMAIL_PASS="your_app_password_here"
+
+
 
 `backend/config.py`:
 
 ```python
-MONGO_URI = "mongodb+srv://Triveni:adepu123@cluster0.2glwj.mongodb.net/pettrack?retryWrites=true&w=majority"
+MONGO_URI = "your-mongodb-atlas-url"
 DB_NAME = "pettrack"
-Backend Setup
-bash
-Copy code
+## Backend Setup
+
+```bash
+# Start Backend API
 cd backend
 pip install -r requirements.txt
 uvicorn main:app --reload
+
 API docs:
 http://localhost:8000/docs
 
-Frontend Setup (Flutter)
-bash
-Copy code
-cd frontend
+##Frontend Setup (Flutter)
 flutter pub get
 flutter run
 How Matching Works (Simple Explanation)
@@ -113,9 +117,22 @@ If the score exceeds the threshold (0.7), it is treated as a potential match.
 
 Matches are shown in the Matches screen.
 
-Future Enhancements
-Automatic notification to the pet owner when a match is found
+## Future Enhancements
 
-Push notifications (Firebase Cloud Messaging)
+- Show the uploader/owner details directly in the pet card (similar to social media posts).
+- Automatically archive or delete lost pet records after 1–2 months to avoid database clutter.
+- Implement email notifications when a match is detected.
+- Add a direct chat interface between the pet owner and the person who found the pet.
+- Provide a “My Pets” section so users can manage and edit their own uploaded pet records.
 
-Improved scoring by including more pet attributes
+
+## Screenshots
+
+### Login Screen
+![Login](./login.jpg)
+
+### Add Lost Pet
+![Add Lost Pet](./lost_pet.jpg)
+
+### Matches Screen
+![Matches](./matches.jpg)
