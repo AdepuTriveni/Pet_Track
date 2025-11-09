@@ -87,14 +87,12 @@ EMAIL_PASS="your_app_password_here"
 
 
 
-`backend/config.py`:
+backend/config.py:
 
-```python
 MONGO_URI = "your-mongodb-atlas-url"
 DB_NAME = "pettrack"
 ## Backend Setup
 
-```bash
 # Start Backend API
 cd backend
 pip install -r requirements.txt
@@ -129,10 +127,13 @@ Matches are shown in the Matches screen.
 ## Screenshots
 
 ### Login Screen
-![alt text](login.png)
+![Login Screen](./login.png)
 
 ### Add Lost Pet
-![Add Lost Pet](lost_pet.jpg)
+![Add Lost Pet](./los_pet.jpg)
+
+### Add Found Pet
+![Add Found Pet](./found_pet.jpg)
 
 ### Matches Screen
-![Mathches](image-1.png)
+![Matches Screen](./matches.jpg)
