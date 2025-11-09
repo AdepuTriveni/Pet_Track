@@ -1,0 +1,26 @@
+2025/10/24-11:50:14.534 57ac Creating DB C:\Users\Triveni\AppData\Local\Temp\flutter_tools.dd369dd2\flutter_tools_chrome_device.8e2e441a\Default\IndexedDB\http_localhost_61970.indexeddb.leveldb since it was missing.
+2025/10/24-11:50:14.543 57ac Reusing MANIFEST C:\Users\Triveni\AppData\Local\Temp\flutter_tools.dd369dd2\flutter_tools_chrome_device.8e2e441a\Default\IndexedDB\http_localhost_61970.indexeddb.leveldb/MANIFEST-000001
+2025/10/24-11:50:14.553 1c40 Level-0 table #5: started
+2025/10/24-11:50:14.555 1c40 Level-0 table #5: 1284 bytes OK
+2025/10/24-11:50:14.557 1c40 Delete type=0 #3
+2025/10/24-11:50:14.557 4c30 Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/10/24-11:51:58.521 57ac Level-0 table #7: started
+2025/10/24-11:51:58.523 57ac Level-0 table #7: 4497 bytes OK
+2025/10/24-11:51:58.525 57ac Delete type=0 #4
+2025/10/24-11:51:58.526 1c40 Manual compaction at level-0 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/10/24-11:53:16.929 1c40 Compacting 1@1 + 1@2 files
+2025/10/24-11:53:16.950 1c40 Generated table #8@1: 41 keys, 2905 bytes
+2025/10/24-11:53:16.950 1c40 Compacted 1@1 + 1@2 files => 2905 bytes
+2025/10/24-11:53:16.952 1c40 compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/10/24-11:53:16.953 1c40 Delete type=2 #5
+2025/10/24-11:53:16.953 1c40 Delete type=2 #7
+2025/10/24-11:54:27.363 57ac Level-0 table #10: started
+2025/10/24-11:54:27.366 57ac Level-0 table #10: 3305 bytes OK
+2025/10/24-11:54:27.368 57ac Delete type=0 #6
+2025/10/24-11:54:27.368 5940 Manual compaction at level-0 from '\x00\x05\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/10/24-11:55:44.978 5940 Compacting 1@1 + 1@2 files
+2025/10/24-11:55:44.999 5940 Generated table #11@1: 41 keys, 2905 bytes
+2025/10/24-11:55:44.999 5940 Compacted 1@1 + 1@2 files => 2905 bytes
+2025/10/24-11:55:45.001 5940 compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/10/24-11:55:45.001 5940 Delete type=2 #8
+2025/10/24-11:55:45.002 5940 Delete type=2 #10

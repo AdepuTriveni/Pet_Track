@@ -179,3 +179,10 @@ async def match_score_api(request: Request):
 
     # ⚡ Node expects a **list** not an object with 'matches'
     return out_matches
+
+
+@app.get("/matches/count")
+def get_reunited_count():
+    count = matches_collection.count_documents({})
+    return {"reunited_count": count}
+

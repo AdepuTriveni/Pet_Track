@@ -104,3 +104,15 @@ class PetService extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+Future<int> fetchReunitedCount() async {
+  final response = await http.get(Uri.parse('http://<your-backend-ip>:8000/matches/count'));
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    return data['reunited_count'] ?? 0;
+  } else {
+    throw Exception('Failed to load reunited count');
+  }
+}
+

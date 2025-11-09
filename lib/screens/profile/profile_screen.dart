@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../services/auth_service.dart';
+import '../../services/pet_service.dart';
 import '../../widgets/custom_button.dart';
 import '../auth/login_screen.dart';
 
@@ -9,118 +10,173 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final petService = Provider.of<PetService>(context, listen: false);
+
+    // Fetch pets once when screen opens
+    petService.fetchPets();
+
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Profile'),
+        backgroundColor: Colors.black,
         elevation: 0,
+        title: const Text(
+          'Profile',
+          style: TextStyle(color: Colors.yellowAccent, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.yellowAccent),
       ),
-      body: Consumer<AuthService>(
-        builder: (context, authService, child) {
+      body: Consumer2<AuthService, PetService>(
+        builder: (context, authService, petService, child) {
           final user = authService.currentUser;
 
           if (user == null) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(color: Colors.yellowAccent),
+            );
           }
 
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                // Profile Header
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        const CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Color(0xFF2196F3),
-                          child: Icon(Icons.person, size: 50, color: Colors.white),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          user.email,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "User ID: ${user.id}",
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Colors.grey[600],
-                              ),
-                        ),
+          // Compute dynamic counts from _pets list
+          final lostPetsCount = petService.pets
+              .where((p) => p.type.toLowerCase() == 'lost')
+              .length;
+          final foundPetsCount = petService.pets
+              .where((p) => p.type.toLowerCase() == 'found')
+              .length;
+          final reunitedCount = petService.pets
+              .where((p) => p.type.toLowerCase() == 'reunited')
+              .length;
+
+          return Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.black, Color(0xFF1A1A1A)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  // Profile Header
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[900],
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Colors.yellowAccent.withOpacity(0.4)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.yellowAccent.withOpacity(0.1),
+                          blurRadius: 8,
+                          spreadRadius: 1,
+                        )
                       ],
                     ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                // Quick Stats (placeholders)
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildStatCard(context, 'Lost Pets', '0', Icons.search, Colors.red),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildStatCard(context, 'Found Pets', '0', Icons.pets, Colors.green),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildStatCard(context, 'Reunited', '0', Icons.favorite, Colors.blue),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-
-                // Menu Items
-                Card(
-                  child: Column(
-                    children: [
-                      _buildMenuItem(context, icon: Icons.pets, title: 'My Pets',
-                          subtitle: 'View your lost and found pets', onTap: () {}),
-                      _buildMenuItem(context, icon: Icons.help, title: 'Help & Support',
-                          subtitle: 'Get help and contact support', onTap: () {}),
-                      _buildMenuItem(context, icon: Icons.info, title: 'About',
-                          subtitle: 'App version and information', onTap: () {}),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                // Sign Out
-                CustomButton(
-                  text: 'Sign Out',
-                  onPressed: () async {
-                    final confirmed = await showDialog<bool>(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('Sign Out'),
-                        content: const Text('Are you sure you want to sign out?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context, false),
-                            child: const Text('Cancel'),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          const CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.yellowAccent,
+                            child: Icon(Icons.person, size: 55, color: Colors.black),
                           ),
-                          ElevatedButton(
-                            onPressed: () => Navigator.pop(context, true),
-                            child: const Text('Sign Out'),
+                          const SizedBox(height: 16),
+                          Text(
+                            user.email,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ],
                       ),
-                    );
+                    ),
+                  ),
+                  const SizedBox(height: 20),
 
-                    if (confirmed == true) {
-                      await authService.signOut();
-                      Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => const LoginScreen()),
-                        (route) => false,
+                  // Stats section (Dynamic)
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildStatCard(
+                          'Lost Pets',
+                          lostPetsCount.toString(),
+                          Icons.search,
+                          Colors.redAccent,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildStatCard(
+                          'Found Pets',
+                          foundPetsCount.toString(),
+                          Icons.pets,
+                          Colors.greenAccent,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildStatCard(
+                          'Reunited',
+                          reunitedCount.toString(),
+                          Icons.favorite,
+                          Colors.blueAccent,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 40),
+
+                  // Sign Out
+                  CustomButton(
+                    text: 'Sign Out',
+                    onPressed: () async {
+                      final confirmed = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          backgroundColor: Colors.black,
+                          title: const Text('Sign Out',
+                              style: TextStyle(color: Colors.yellowAccent)),
+                          content: const Text(
+                            'Are you sure you want to sign out?',
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, false),
+                              child: const Text('Cancel',
+                                  style: TextStyle(color: Colors.grey)),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.yellowAccent,
+                                foregroundColor: Colors.black,
+                              ),
+                              onPressed: () => Navigator.pop(context, true),
+                              child: const Text('Sign Out'),
+                            ),
+                          ],
+                        ),
                       );
-                    }
-                  },
-                  backgroundColor: Colors.red,
-                ),
-              ],
+
+                      if (confirmed == true) {
+                        await authService.signOut();
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => const LoginScreen()),
+                          (route) => false,
+                        );
+                      }
+                    },
+                    backgroundColor: Colors.yellowAccent,
+                    textColor: Colors.black,
+                  ),
+                ],
+              ),
             ),
           );
         },
@@ -128,57 +184,36 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(
-    BuildContext context,
-    String title,
-    String value,
-    IconData icon,
-    Color color,
-  ) {
-    return Card(
+  Widget _buildStatCard(String title, String value, IconData icon, Color color) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.yellowAccent.withOpacity(0.3)),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             Icon(icon, size: 32, color: color),
             const SizedBox(height: 8),
-            Text(value,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: color,
-                    )),
+            Text(
+              value,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: color,
+                fontSize: 20,
+              ),
+            ),
             const SizedBox(height: 4),
-            Text(title,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[600],
-                    ),
-                textAlign: TextAlign.center),
+            Text(
+              title,
+              style: const TextStyle(color: Colors.white70),
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildMenuItem(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return ListTile(
-      leading: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: const Color(0xFF2196F3).withOpacity(0.1),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Icon(icon, color: const Color(0xFF2196F3)),
-      ),
-      title: Text(title),
-      subtitle: Text(subtitle),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: onTap,
     );
   }
 }
